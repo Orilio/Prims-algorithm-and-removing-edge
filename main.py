@@ -18,8 +18,10 @@ class Graph:
         self.adjList[v].edges.append((u, w))
 
     def remove_edge(self, u, v):
-        self.adjList[u].edges = [e for e in self.adjList[u].edges if not e[0] == v]
-        self.adjList[v].edges = [e for e in self.adjList[v].edges if not e[0] == u]
+        self.adjList[u].edges = [
+            e for e in self.adjList[u].edges if not e[0] == v]
+        self.adjList[v].edges = [
+            e for e in self.adjList[v].edges if not e[0] == u]
 
     def check_containing_edge(self, u, v):
         for edge in self.adjList[v].edges:
@@ -77,12 +79,12 @@ def bfs(g, node, colour):
 def remove_edge_from_mst(g, mst, edge):
     if not mst.check_containing_edge(edge[0], edge[1]):
         return mst
-    
+
     mst.remove_edge(edge[0], edge[1])
     bfs(mst, edge[0], 'blue')
     bfs(mst, edge[1], 'red')
 
-    min_weight , min_edge = sys.maxsize, None
+    min_weight, min_edge = sys.maxsize, None
 
     for v, vnode in g.adjList.items():
         for u, weight in vnode.edges:
@@ -99,7 +101,8 @@ def remove_edge_from_mst(g, mst, edge):
 
 
 def main():
-    v =['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't']
+    v = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+         'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't']
     g = Graph(v)
 
     g.addEdge('a', 'h', 21)
@@ -158,32 +161,24 @@ def main():
     g.addEdge('r', 's', 21)
     g.addEdge('s', 't', 29)
 
-
-
     print(f'Original - {g}')
-    print('##################################################################')
+    print('##################################################################\n')
 
     mst = prims(g)
     print(f'Minimal Spanning Tree - {mst}')
-    print('##################################################################')
-
+    print('##################################################################\n')
 
     print("Removing an edge that doesn't affect the minimal spanning tree:")
     print('Edge: (a,h)')
-    mst = remove_edge_from_mst(g,mst,('a', 'h'))
+    mst = remove_edge_from_mst(g, mst, ('a', 'h'))
     print(f'Minimal Spanning Tree after removal - {mst}')
-    print('##################################################################')
-
+    print('##################################################################\n')
 
     print('Removing an edge that does affect the minimal spanning tree')
     print('Edge: (r,t)')
-    mst = remove_edge_from_mst(g,mst,('r', 't'))
+    mst = remove_edge_from_mst(g, mst, ('r', 't'))
     print(f'Minimal Spanning Tree after removal - {mst}')
 
 
 if __name__ == "__main__":
     main()
-
-
-
-
