@@ -99,11 +99,8 @@ def remove_edge_from_mst(g, mst, edge):
 
 
 def main():
-
-
-    V = ['a', 'b', 'c', 'd', 'e', 'f', 'g',
-        'h', 'i', 'j', 'k', 'l']
-    g = Graph(V)
+    v = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']
+    g = Graph(v)
 
     g.addEdge('a', 'c', 23)
     g.addEdge('a', 'd', 5)
@@ -121,6 +118,10 @@ def main():
     g.addEdge('h', 'l', 8)
     g.addEdge('i', 'k', 7)
     g.addEdge('l', 'k', 12)
+
+    print(f'Original - {g}')
+    mst = prims(g)
+    print(f'Minimal Spanning Tree - {mst}')
 
 if __name__ == "__main__":
     main()
