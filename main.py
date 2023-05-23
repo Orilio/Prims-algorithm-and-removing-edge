@@ -82,3 +82,33 @@ def bfs(visited_vertices, graph, node, colour):  # function for BFS
                 graph.adjList[edge[0]].colour = colour
                 visited_vertices.append(edge[0])
                 queue.append(edge[0])
+
+
+def remove_edge_create_new_minimum_spanning_tree(original_graph, prim_graph, edge):
+    if not prim_graph.check_containing_edge(edge[0], edge[1]):
+        return prim_graph
+    prim_graph.remove_edge(edge[0], edge[1], edge[2])
+
+    if original_graph.check_removing_edge_creates_not_tree(edge[0], edge[1]):
+        return "the graph isnt connected"
+
+    # running BFS from both sides of the prim graph
+    bfs([], prim_graph, edge[0], "blue")  # function calling
+    bfs([], prim_graph, edge[1], "red")  # function calling
+
+    # setting high min_weight
+    min_weight , min_edge = sys.maxint, None
+    # getting every edge for v and then comaparing the colour if diffrent than checking of smaller than min weight
+    for v, vnode in original_graph.adjList.items():
+        for u, weight in vnode.edges:
+            if vnode.colour != prim_graph.adjList[u].colour:
+                if weight < min_weight:
+                    min_weight = weight
+                    min_edge = [weight, (v, u)]
+
+    if not min_edge:
+        raise Exception('could not find a new MST')
+    prim_graph.addEdge(min_edge[0], min_edge[1], min_edge[2])
+    prim_graph.addEdge()
+
+    return prim_graph
