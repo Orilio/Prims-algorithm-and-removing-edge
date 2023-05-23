@@ -99,27 +99,6 @@ def remove_edge_from_mst(g, mst, edge):
 
 
 def main():
-    # v = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']
-    # g = Graph(v)
-
-    # g.addEdge('a', 'c', 23)
-    # g.addEdge('a', 'd', 5)
-    # g.addEdge('a', 'b', 12)
-    # g.addEdge('b', 'f', 7)
-    # g.addEdge('c', 'd', 18)
-    # g.addEdge('c', 'e', 17)
-    # g.addEdge('d', 'g', 9)
-    # g.addEdge('d', 'f', 10)
-    # g.addEdge('e', 'i', 16)
-    # g.addEdge('e', 'j', 14)
-    # g.addEdge('f', 'l', 20)
-    # g.addEdge('g', 'h', 4)
-    # g.addEdge('g', 'j', 3)
-    # g.addEdge('h', 'l', 8)
-    # g.addEdge('i', 'k', 7)
-    # g.addEdge('l', 'k', 12)
-
-
     v =['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't']
     g = Graph(v)
 
