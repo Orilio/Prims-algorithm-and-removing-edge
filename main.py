@@ -17,15 +17,10 @@ class Graph:
         self.adjList[u].edges.append((v, w))
         self.adjList[v].edges.append((u, w))
 
-    def remove_edge(self, u, v, w):
-        self.adjList[u].edges.remove((v, w))
-        self.adjList[v].edges.remove((u, w))
-
     def remove_edge(self, u, v):
+        self.adjList[u].edges = [e for e in self.adjList[u].edges if not e[0] == u]
+        self.adjList[v].edges = [e for e in self.adjList[v].edges if not e[0] == v]
             
-
-        self.adjList[u].edges = [edge for edge in self.adjList[u].edges if not edge[0] == u]
-        self.adjList[v]
 
     def check_containing_edge(self, u, v):
         for edge in self.adjList[v].edges:
@@ -88,7 +83,7 @@ def bfs(visited_vertices, graph, node, colour):  # function for BFS
 def remove_edge_create_new_minimum_spanning_tree(original_graph, prim_graph, edge):
     if not prim_graph.check_containing_edge(edge[0], edge[1]):
         return prim_graph
-    prim_graph.remove_edge(edge[0], edge[1], edge[2])
+    prim_graph.remove_edge(edge[0], edge[1])
 
     # running BFS from both sides of the prim graph
     bfs([], prim_graph, edge[0], "blue")  # function calling
