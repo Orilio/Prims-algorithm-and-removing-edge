@@ -42,7 +42,6 @@ def prims(g):
     active_edges = []
     new_graph = Graph(list(g.adjList))
     mst = {i: False for i in g.adjList}
-    # cost = 0
     heappush(active_edges, [0, (None, list(g.adjList)[0])])
 
     while len(active_edges) != 0:
@@ -62,3 +61,24 @@ def prims(g):
                 heappush(active_edges, [w, (u, v)])
     return new_graph
 
+
+def bfs(visited_vertices, graph, node, colour):  # function for BFS
+    queue = []  # Initialize a queue
+    # set colour of first node to colour
+    graph.adjList[node].colour = colour
+
+    visited_vertices.append(node)
+    queue.append(node)
+
+    # we need to add the part where we add the colour to the node
+    while queue:  # Creating loop to visit each node
+        m = queue.pop(0)
+        print(m, end=" ")
+
+        # finding the edge neighbor vertic for the node
+        for edge in graph.adjList[m].edges:
+            if edge[0] not in visited_vertices:
+                # you go over the graph and in the vertix location adding the colour
+                graph.adjList[edge[0]].colour = colour
+                visited_vertices.append(edge[0])
+                queue.append(edge[0])
