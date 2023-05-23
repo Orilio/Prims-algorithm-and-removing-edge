@@ -125,3 +125,51 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+def creating_list_of_edges(num_vertices):
+    return list(string.ascii_lowercase)[0:num_vertices]
+
+
+def creating_initial_graph(g, vertices):
+    vertices_remove = vertices.copy()
+
+    counter_of_edges = 0
+    num_vertices = len(vertices)
+    # looping over the list except for the last vertex, otherwise we will create an empry list
+    for vertex in vertices[0:num_vertices - 1]:
+        # removing the vertex so we wont create an edge to the same vertex
+        vertices_remove.remove(vertex)
+        # contains all the edges created for the vertex were on
+        created_edges = []
+        # creating a random number of edges, the number of edges might be lower if dulicates were created
+        for i in [i + 1 for i in range(random.randint(0, 8))]:
+            edge = tuple((vertex, random.choice(vertices_remove)))
+
+            # checking if  the edge that was created wasn't created before
+            if edge not in created_edges:
+                created_edges.append(edge)
+                counter_of_edges += 1
+                # print("g.addEdge('" + edge[0] + "', '" + edge[1] + "', " + str(random.randint(0, 30)) + ")")
+                g.addEdge(edge[0], edge[1], random.randint(0, 30))
+
+    print("num of edges created " + str(counter_of_edges))
+
+
+num_vertices = 20
+list_of_vertices = creating_list_of_edges(num_vertices)
+g = Graph(list_of_vertices)
+
+creating_initial_graph(g, list_of_vertices)
+print(g)
