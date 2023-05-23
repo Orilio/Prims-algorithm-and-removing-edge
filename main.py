@@ -21,13 +21,19 @@ class Graph:
         self.adjList[u].edges.remove((v, w))
         self.adjList[v].edges.remove((u, w))
 
+    def remove_edge(self, u, v):
+            
+
+        self.adjList[u].edges = [edge for edge in self.adjList[u].edges if not edge[0] == u]
+        self.adjList[v]
+
     def check_containing_edge(self, u, v):
         for edge in self.adjList[v].edges:
             if edge[0] == u:
                 return True
 
     def __str__(self):
-        g = '''graph?\n'''
+        g = '''graph:\n'''
         for v, n in self.adjList.items():
             g += f'{v}:\t {n.edges}\n'
         return g
@@ -83,9 +89,6 @@ def remove_edge_create_new_minimum_spanning_tree(original_graph, prim_graph, edg
     if not prim_graph.check_containing_edge(edge[0], edge[1]):
         return prim_graph
     prim_graph.remove_edge(edge[0], edge[1], edge[2])
-
-    if original_graph.check_removing_edge_creates_not_tree(edge[0], edge[1]):
-        return "the graph isnt connected"
 
     # running BFS from both sides of the prim graph
     bfs([], prim_graph, edge[0], "blue")  # function calling
