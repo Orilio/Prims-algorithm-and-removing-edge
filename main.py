@@ -1,4 +1,4 @@
-from heapq import {heappush, heappop}
+from heapq import heappush, heappop
 import sys
 
 
@@ -36,3 +36,29 @@ class Graph:
         for v, n in self.adjList.items():
             g += f'{v}:\t {n.edges}\n'
         return g
+
+
+def prims(g):
+    active_edges = []
+    new_graph = Graph(list(g.adjList))
+    mst = {i: False for i in g.adjList}
+    # cost = 0
+    heappush(active_edges, [0, (None, list(g.adjList)[0])])
+
+    while len(active_edges) != 0:
+        wt, edge = heappop(active_edges)
+        u = edge[1]
+        prev = edge[0]
+
+        if mst[u]:
+            continue
+
+        mst[u] = True
+        if(prev):
+            new_graph.addEdge(prev, u, wt)
+
+        for v, w in g.adjList[u].edges:
+            if not mst[v]:
+                heappush(active_edges, [w, (u, v)])
+    return new_graph
+
