@@ -58,12 +58,10 @@ def prims(g):
 
 
 def bfs(g, node, colour):
-    queue = []
     visited = {v: False for v in g.adjList}
-    # set colour of first node
     g.adjList[node].colour = colour
     visited[node] = True
-    queue.append(node)
+    queue = [node]
 
     while queue:
         v = queue.pop(0)
@@ -76,28 +74,53 @@ def bfs(g, node, colour):
                 queue.append(u)
 
 
-def remove_edge_create_new_minimum_spanning_tree(original_graph, prim_graph, edge):
-    if not prim_graph.check_containing_edge(edge[0], edge[1]):
-        return prim_graph
-    prim_graph.remove_edge(edge[0], edge[1])
+def remove_edge_from_mst(g, mst, edge):
+    if not mst.check_containing_edge(edge[0], edge[1]):
+        return mst
+    
+    mst.remove_edge(edge[0], edge[1])
+    bfs(mst, edge[0], 'blue')
+    bfs(mst, edge[1], 'red')
 
-    # running BFS from both sides of the prim graph
-    bfs(prim_graph, edge[0], 'blue')
-    bfs(prim_graph, edge[1], 'red')
-
-    # setting high min_weight
     min_weight , min_edge = sys.maxint, None
-    # getting every edge for v and then comaparing the colour if diffrent than checking of smaller than min weight
-    for v, vnode in original_graph.adjList.items():
+
+    for v, vnode in g.adjList.items():
         for u, weight in vnode.edges:
-            if vnode.colour != prim_graph.adjList[u].colour:
+            if vnode.colour != mst.adjList[u].colour:
                 if weight < min_weight:
                     min_weight = weight
-                    min_edge = [weight, (v, u)]
+                    min_edge = (v, u, weight)
 
     if not min_edge:
         raise Exception('could not find a new MST')
-    prim_graph.addEdge(min_edge[0], min_edge[1], min_edge[2])
-    prim_graph.addEdge()
 
-    return prim_graph
+    mst.addEdge(*min_edge)
+    return mst
+
+
+def main():
+
+
+    V = ['a', 'b', 'c', 'd', 'e', 'f', 'g',
+        'h', 'i', 'j', 'k', 'l']
+    g = Graph(V)
+
+    g.addEdge('a', 'c', 23)
+    g.addEdge('a', 'd', 5)
+    g.addEdge('a', 'b', 12)
+    g.addEdge('b', 'f', 7)
+    g.addEdge('c', 'd', 18)
+    g.addEdge('c', 'e', 17)
+    g.addEdge('d', 'g', 9)
+    g.addEdge('d', 'f', 10)
+    g.addEdge('e', 'i', 16)
+    g.addEdge('e', 'j', 14)
+    g.addEdge('f', 'l', 20)
+    g.addEdge('g', 'h', 4)
+    g.addEdge('g', 'j', 3)
+    g.addEdge('h', 'l', 8)
+    g.addEdge('i', 'k', 7)
+    g.addEdge('l', 'k', 12)
+
+if __name__ == "__main__":
+    main()
