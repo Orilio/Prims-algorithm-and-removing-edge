@@ -57,23 +57,23 @@ def prims(g):
     return mst
 
 
-def bfs(visited, graph, node, colour):
+def bfs(g, node, colour):
     queue = []
-    visited = {}
+    visited = {v: False for v in g.adjList}
     # set colour of first node
-    graph.adjList[node].colour = colour
-    visited.append(node)
+    g.adjList[node].colour = colour
+    visited[node] = True
     queue.append(node)
 
     while queue:
-        m = queue.pop(0)
+        v = queue.pop(0)
 
-        for edge in graph.adjList[m].edges:
-            if edge[0] not in visited:
-                # you go over the graph and in the vertix location adding the colour
-                graph.adjList[edge[0]].colour = colour
-                visited.append(edge[0])
-                queue.append(edge[0])
+        for edge in g.adjList[v].edges:
+            u = edge[0]
+            if u not in visited:
+                g.adjList[u].colour = colour
+                visited[u] = True
+                queue.append(u)
 
 
 def remove_edge_create_new_minimum_spanning_tree(original_graph, prim_graph, edge):
@@ -82,8 +82,8 @@ def remove_edge_create_new_minimum_spanning_tree(original_graph, prim_graph, edg
     prim_graph.remove_edge(edge[0], edge[1])
 
     # running BFS from both sides of the prim graph
-    bfs([], prim_graph, edge[0], 'blue')
-    bfs([], prim_graph, edge[1], 'red')
+    bfs(prim_graph, edge[0], 'blue')
+    bfs(prim_graph, edge[1], 'red')
 
     # setting high min_weight
     min_weight , min_edge = sys.maxint, None
