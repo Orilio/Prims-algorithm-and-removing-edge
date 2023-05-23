@@ -82,7 +82,7 @@ def remove_edge_from_mst(g, mst, edge):
     bfs(mst, edge[0], 'blue')
     bfs(mst, edge[1], 'red')
 
-    min_weight , min_edge = sys.maxint, None
+    min_weight , min_edge = sys.maxsize, None
 
     for v, vnode in g.adjList.items():
         for u, weight in vnode.edges:
@@ -182,8 +182,25 @@ def main():
 
 
     print(f'Original - {g}')
+    print('##################################################################')
+
     mst = prims(g)
     print(f'Minimal Spanning Tree - {mst}')
+    print('##################################################################')
+
+
+    print("Removing an edge that doesn't affect the minimal spanning tree:")
+    print('Edge: (a,h)')
+    mst = remove_edge_from_mst(g,mst,('a', 'h'))
+    print(f'Minimal Spanning Tree after removal - {mst}')
+    print('##################################################################')
+
+
+    print('Removing an edge that does affect the minimal spanning tree')
+    print('Edge: (r,t)')
+    mst = remove_edge_from_mst(g,mst,('r', 't'))
+    print(f'Minimal Spanning Tree after removal - {mst}')
+
 
 if __name__ == "__main__":
     main()
