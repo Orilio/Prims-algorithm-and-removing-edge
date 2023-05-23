@@ -26,11 +26,6 @@ class Graph:
             if edge[0] == u:
                 return True
 
-    def check_removing_edge_creates_not_tree(self, u, v):
-        # checking if one of the vertex isn't connected to other vertex
-        if len(self.adjList[u].edges) == 0 or len(self.adjList[v].edges) == 0:
-            return True
-
     def __str__(self):
         g = '''graph?\n'''
         for v, n in self.adjList.items():
