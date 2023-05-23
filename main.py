@@ -20,7 +20,6 @@ class Graph:
     def remove_edge(self, u, v):
         self.adjList[u].edges = [e for e in self.adjList[u].edges if not e[0] == u]
         self.adjList[v].edges = [e for e in self.adjList[v].edges if not e[0] == v]
-            
 
     def check_containing_edge(self, u, v):
         for edge in self.adjList[v].edges:
@@ -36,8 +35,8 @@ class Graph:
 
 def prims(g):
     active_edges = []
-    new_graph = Graph(list(g.adjList))
-    mst = {i: False for i in g.adjList}
+    mst = Graph(list(g.adjList))
+    visited = {v: False for v in g.adjList}
     heappush(active_edges, [0, (None, list(g.adjList)[0])])
 
     while len(active_edges) != 0:
@@ -45,38 +44,35 @@ def prims(g):
         u = edge[1]
         prev = edge[0]
 
-        if mst[u]:
+        if visited[u]:
             continue
 
-        mst[u] = True
+        visited[u] = True
         if(prev):
-            new_graph.addEdge(prev, u, wt)
+            mst.addEdge(prev, u, wt)
 
         for v, w in g.adjList[u].edges:
-            if not mst[v]:
+            if not visited[v]:
                 heappush(active_edges, [w, (u, v)])
-    return new_graph
+    return mst
 
 
-def bfs(visited_vertices, graph, node, colour):  # function for BFS
-    queue = []  # Initialize a queue
-    # set colour of first node to colour
+def bfs(visited, graph, node, colour):
+    queue = []
+    visited = {}
+    # set colour of first node
     graph.adjList[node].colour = colour
-
-    visited_vertices.append(node)
+    visited.append(node)
     queue.append(node)
 
-    # we need to add the part where we add the colour to the node
-    while queue:  # Creating loop to visit each node
+    while queue:
         m = queue.pop(0)
-        print(m, end=" ")
 
-        # finding the edge neighbor vertic for the node
         for edge in graph.adjList[m].edges:
-            if edge[0] not in visited_vertices:
+            if edge[0] not in visited:
                 # you go over the graph and in the vertix location adding the colour
                 graph.adjList[edge[0]].colour = colour
-                visited_vertices.append(edge[0])
+                visited.append(edge[0])
                 queue.append(edge[0])
 
 
@@ -86,8 +82,8 @@ def remove_edge_create_new_minimum_spanning_tree(original_graph, prim_graph, edg
     prim_graph.remove_edge(edge[0], edge[1])
 
     # running BFS from both sides of the prim graph
-    bfs([], prim_graph, edge[0], "blue")  # function calling
-    bfs([], prim_graph, edge[1], "red")  # function calling
+    bfs([], prim_graph, edge[0], 'blue')
+    bfs([], prim_graph, edge[1], 'red')
 
     # setting high min_weight
     min_weight , min_edge = sys.maxint, None
